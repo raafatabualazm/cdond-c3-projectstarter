@@ -183,15 +183,16 @@ jobs:
       - add_ssh_keys:
           fingerprints: 
             - "64:40:a5:48:d0:c1:5f:94:f0:b8:2a:6c:bc:b4:f5:22"
-      - attach_workspace:
-          at: ~/project/.circleci/ansible/
-
+      
       - run:
           name: Install dependencies
           command: |
             sudo apt update
             yum install -y tar gzip
             sudo apt install ansible --fix-missing
+
+      - attach_workspace:
+          at: ~/project/.circleci/ansible/
             
       - run:
           name: Configure server
