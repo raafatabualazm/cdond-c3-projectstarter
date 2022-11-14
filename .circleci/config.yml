@@ -190,6 +190,7 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt update
+            yum install -y tar gzip
             sudo apt install ansible --fix-missing
             
       - run:
