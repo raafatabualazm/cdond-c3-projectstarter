@@ -169,24 +169,29 @@ jobs:
           ID: "${CIRCLE_WORKFLOW_ID:0:7}"
 
 
-#   configure-infrastructure:
-#     docker:
-#       # Docker image here that supports Ansible
-#     steps:
-#       # Checkout code from git
-#       # Add ssh keys with fingerprint
-#       # attach workspace
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # Your code here
-#             exit 1
-#       - run:
-#           name: Configure server
-#           command: |
-#             # Your code here
-#             exit 1
-#       # Here's where you will add some code to rollback on failure      
+  configure-infrastructure:
+    docker:
+      - image: circleci/python
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: 
+            - "64:40:a5:48:d0:c1:5f:94:f0:b8:2a:6c:bc:b4:f5:22"
+      - attach_workspace:
+          at: ~/project/.circleci/ansible/
+
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt install ansible --fix-missing
+            
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml
+      - destroy-environment:
+          ID: "${CIRCLE_WORKFLOW_ID:0:7}"   
 
 #   run-migrations:
 #     docker:
