@@ -186,9 +186,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt update
             yum install -y tar gzip
-            sudo apt install ansible --fix-missing
+            yum install ansible --fix-missing
 
       - attach_workspace:
           at: ~/project/.circleci/ansible/
@@ -338,8 +337,8 @@ workflows:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      # - run-migrations:
-      #     requires: [configure-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
       # - deploy-frontend:
       #     requires: [run-migrations]
       # - deploy-backend:
