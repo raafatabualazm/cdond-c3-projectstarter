@@ -225,7 +225,6 @@ jobs:
             curl --insecure https://kvdb.io/NAXmWq5Y3nNQjvkQYfQ6MM/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - revert-migrations
-            ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
           ID: "${CIRCLE_WORKFLOW_ID:0:7}"
           EnvName: backend
@@ -260,7 +259,6 @@ jobs:
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - revert-migrations
-            ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
           ID: "${CIRCLE_WORKFLOW_ID:0:7}"
           EnvName: backend
