@@ -186,8 +186,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            yum install epel-release
+            yum -y update
             yum install -y tar gzip
-            yum install ansible --fix-missing
+            yum install ansible
 
       - attach_workspace:
           at: ~/project/.circleci/ansible/
