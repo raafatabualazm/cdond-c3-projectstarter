@@ -225,27 +225,47 @@ jobs:
             curl --insecure https://kvdb.io/NAXmWq5Y3nNQjvkQYfQ6MM/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - revert-migrations
+            ansible-playbook -i inventory.txt configure-server.yml
+      - destroy-environment:
+          ID: "${CIRCLE_WORKFLOW_ID:0:7}"
+          EnvName: backend
+      - destroy-environment:
+          ID: "${CIRCLE_WORKFLOW_ID:0:7}"
+          EnvName: frontend
 
-#   deploy-frontend:
-#     docker:
-#       # Docker image here that supports AWS CLI
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Get backend url
-#           command: |
-#             # your code here
-#             export API_URL="http://${BACKEND_IP}:3030"
-#             echo "${API_URL}"
-#       - run:
-#           name: Deploy frontend objects
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure      
+  deploy-frontend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt update
+            sudo apt -y install awscli --fix-missing
+      - run:
+          name: Get backend url
+          command: |
+            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filter 'Name=tag:Project,Values=udacity-project-full-cicd' --output text)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL = ${API_URL}"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            cat frontend/.env
+          name: Deploy frontend objects
+          command: |
+            cd frontend
+            npm install
+            npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      - revert-migrations
+            ansible-playbook -i inventory.txt configure-server.yml
+      - destroy-environment:
+          ID: "${CIRCLE_WORKFLOW_ID:0:7}"
+          EnvName: backend
+      - destroy-environment:
+          ID: "${CIRCLE_WORKFLOW_ID:0:7}"
+          EnvName: frontend
                     
 #   deploy-backend:
 #     docker:
