@@ -1,4 +1,3 @@
-tasks:
   - name: Set up env vars
     environment:
     - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
