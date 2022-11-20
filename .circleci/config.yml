@@ -190,7 +190,7 @@ jobs:
           name: Install dependencies
           command: |
             pip install awscli
-            apk add --update curl nodejs npm ansible zip tar gzip
+            apk add --update curl nodejs npm ansible zip tar gzip wget
 
       - attach_workspace:
           at: ~/
@@ -199,6 +199,7 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
+            echo inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
           ID: "${CIRCLE_WORKFLOW_ID:0:7}"
