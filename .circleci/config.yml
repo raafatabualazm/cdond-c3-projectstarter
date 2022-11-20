@@ -316,11 +316,13 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update curl nodejs npm ansible zip tar gzip
+            pip install awscli
       - run:
           name: Get backend url
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filter 'Name=tag:Project,Values=udacity-project-full-cicd' --output text)
             export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL = ${API_URL}"
       - run:
           name: Backend smoke test.
           command: |
