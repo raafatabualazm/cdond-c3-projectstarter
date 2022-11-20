@@ -162,6 +162,7 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filter 'Name=tag:Project,Values=udacity-project-full-cicd' --output text >> .circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -190,7 +191,7 @@ jobs:
             apk add --update curl nodejs npm ansible zip tar gzip
 
       - attach_workspace:
-          at: ~/project/.circleci/ansible/
+          at: ~/
             
       - run:
           name: Configure server
@@ -275,7 +276,7 @@ jobs:
           fingerprints: 
             - "64:40:a5:48:d0:c1:5f:94:f0:b8:2a:6c:bc:b4:f5:22"
       - attach_workspace:
-          at: ~/project/.circleci/ansible/
+          at: ~/
       - run:
           name: Install dependencies
           command: |
