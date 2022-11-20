@@ -28,7 +28,7 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            SUCCESS = curl https://kvdb.io/NAXmWq5Y3nNQjvkQYfQ6MM/migration_${CIRCLE_WORKFLOW_ID:0:7}
+            SUCCESS=curl https://kvdb.io/NAXmWq5Y3nNQjvkQYfQ6MM/migration_${CIRCLE_WORKFLOW_ID:0:7}
             if(( $SUCCESS==1 )); 
             then
              cd ~/project/backend
@@ -279,7 +279,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            udo apt update
+            sudo apt update
             sudo apt -y install awscli --fix-missing
             sudo apt -y install ansible --fix-missing
             sudo apt -y install tar --fix-missing
