@@ -191,7 +191,7 @@ jobs:
           command: |
             pip install awscli
             sudo apt update
-            sudo apt install curl nodejs npm ansible zip tar gzip wget rsync
+            sudo apt install curl nodejs npm ansible zip tar gzip wget rsync --fix-missing
 
       - attach_workspace:
           at: ~/
