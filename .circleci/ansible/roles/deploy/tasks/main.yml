@@ -10,6 +10,7 @@
   become: yes
   shell: |
     cd /home/ubuntu/udapeople/
+    sudo apt update
     sudo apt install npm  
     npm install
     pm2 stop default
