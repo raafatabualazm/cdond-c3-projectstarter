@@ -9,6 +9,7 @@
     dest: /home/ubuntu/udapeople/
 
 - name: Update repositories cache
+  become: true
   apt:
     update_cache: yes
 
