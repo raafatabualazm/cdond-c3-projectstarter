@@ -348,13 +348,13 @@ jobs:
             else
               return 1
             fi
-      - revert-migrations
-      - destroy-environment:
-          ID: "${CIRCLE_WORKFLOW_ID:0:7}"
-          EnvName: backend
-      - destroy-environment:
-          ID: "${CIRCLE_WORKFLOW_ID:0:7}"
-          EnvName: frontend  
+      # - revert-migrations
+      # - destroy-environment:
+      #     ID: "${CIRCLE_WORKFLOW_ID:0:7}"
+      #     EnvName: backend
+      # - destroy-environment:
+      #     ID: "${CIRCLE_WORKFLOW_ID:0:7}"
+      #     EnvName: frontend  
 
 #   cloudfront-update:
 #     docker:
