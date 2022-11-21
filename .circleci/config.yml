@@ -319,7 +319,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt install --update curl nodejs npm ansible zip tar gzip awscli --fix-missing
+            sudo apt update
+            sudo apt install curl nodejs npm ansible zip tar gzip awscli --fix-missing
       - run:
           name: Get backend url
           command: |
