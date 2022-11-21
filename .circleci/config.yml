@@ -179,7 +179,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: circleci/python
     steps:
       - checkout
       - add_ssh_keys:
@@ -190,7 +190,8 @@ jobs:
           name: Install dependencies
           command: |
             pip install awscli
-            apk add --update curl nodejs npm ansible zip tar gzip wget
+            sudo apt update
+            sudo apt install curl nodejs npm ansible zip tar gzip wget rsync
 
       - attach_workspace:
           at: ~/
