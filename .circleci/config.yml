@@ -313,7 +313,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: python:3.7-alpine3.11 
+      - image: circleci/python 
     steps:
       - checkout
       - run:
@@ -330,6 +330,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
+            echo "${API_URL}/api/status"
             if curl "${API_URL}/api/status" | grep "ok"
             then
                 return 0
