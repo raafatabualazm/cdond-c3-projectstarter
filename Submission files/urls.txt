@@ -1,3 +1,3 @@
 https://github.com/raafatabualazm/cdond-c3-projectstarter
 
-http://udapeople-551ece9.s3-website-us-east-1.amazonaws.com
+http://udapeople-42cb347.s3-website-us-east-1.amazonaws.com/#/employees
